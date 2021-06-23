@@ -175,8 +175,6 @@ class ColorHintDataset(data.Dataset):
     else:
       return len(self.hint)
       
-
-
   def __getitem__(self, idx):
     if self.mode == "testing":
       hint_file_name = self.hint[idx]
@@ -342,14 +340,10 @@ class ResUnet(nn.Module):
 ################################################################################################################
 
 model = ResUnet(3)
-#model =AttU_Net()
 PATH="checkpoints/model-epoch-123-losses-0.000318.pth"
 model.load_state_dict(torch.load(PATH))
 
 criterion = nn.MSELoss() #Loss Function
-
-#optimizer = torch.optim.Adam(model.parameters(), lr=1e-4, weight_decay=0.0) #Optimizer
-#scheduler = torch.optim.lr_scheduler.StepLR(optimizer=optimizer,step_size=20, gamma=0.1)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min',patience=5,factor=0.7,verbose=True)
